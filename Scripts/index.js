@@ -14,7 +14,7 @@ function fn_WorkspaceListRender() {
             $.each(data, function(index,value){
 
                 var trHtml = "<tr id='trWorkspace_###ID###'>" +
-                    "<td>###ID###</td>" +
+                    "<td><a href='project.html?workspaceId=###ID###'>###ID###</a></td>" +
                     "<td>###Name###</td>" +
                     "<td>###Status###</td>" +
                     "<td>###Type###</td>" +

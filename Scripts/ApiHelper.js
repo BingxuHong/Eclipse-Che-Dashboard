@@ -11,6 +11,19 @@ var Workspace = {
         });
     }
     ,
+    GetWorkspaceById:function (id) {
+        var ret = null;
+        var url = Workspace.SiteUrl + "/api/workspace/" + id;
+        jQuery.ajax({
+            url: url,
+            success: function (data) {
+                ret = data;
+            },
+            async: false
+        });
+        return ret;
+    }
+    ,
     CheckName: function (name) {
         var bRet = false;
         var url = Workspace.SiteUrl + "/api/workspace";
