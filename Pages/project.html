@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="../../Eclipse-Che-Dashboard1/Eclipse-Che-Dashboard/Style/common.css">
+    <script src="../../Eclipse-Che-Dashboard1/Eclipse-Che-Dashboard/Scripts/jquery-3.1.0.js"></script>
+    <script src="../../Eclipse-Che-Dashboard1/Eclipse-Che-Dashboard/Scripts/common.js"></script>
+    <script src="../../Eclipse-Che-Dashboard1/Eclipse-Che-Dashboard/Scripts/Project.js"></script>
+</head>
+<body>
+<h1>Projects</h1>
+<div id="divBtnArea">
+    <input type="button" id="btnCreateArea" value="Create Project" />
+    <br /><br />
+</div>
+    <div id="divCreateProjectArea" style="display:none;">
+        <h2>Create Project</h2>
+        <table>
+            <tr>
+                <td>Name:</td>
+                <td>
+                    <input type="text" id="txtProjectName" />
+                </td>
+            </tr>
+            <tr>
+                <td>Description:</td>
+                <td>
+                    <input type="text" id="txtProjectDescription" />
+                </td>
+            </tr>
+            <tr>
+                <td>Type:</td>
+                <td>
+                    <input type="radio" name="rdoProjectType" value="blank" checked> blank <br />
+                    <input type="radio" name="rdoProjectType" value="java"> console-java-sample <br />
+                    <input type="radio" name="rdoProjectType" value="node"> nodejs-hello-world
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="button" id="btnCreate" value="Create" />
+                </td>
+            </tr>
+        </table>
+        <br /><br />
+    </div>
+    <div id="divProjectListArea">
+        <table id="tbProject">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
