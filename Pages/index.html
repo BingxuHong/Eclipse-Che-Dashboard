@@ -10,22 +10,62 @@
     <script src="../Scripts/index.js"></script>
 </head>
 <body>
-    <h1>Workspace</h1>
-<table id="tbWorkspace">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Status</th>
-        <th>Type</th>
-        <th>Created</th>
-        <th>Updated</th>
-        <th>Projects</th>
-    </tr>
-    </thead>
-    <tbody>
+<h1>Workspaces</h1>
+<div id="divBtnArea">
+    <input type="button" id="btnCreateArea" value="Create Workspace" />
+    <br /><br />
+</div>
+<div id="divCreateWorkspaceArea" style="display:none;">
+    <h2>Create Workspace</h2>
+    <table>
+        <tr>
+            <td>Name:</td>
+            <td>
+                <input type="text" id="txtWorkspaceName" />
+            </td>
+        </tr>
+        <tr>
+            <td>Ram:</td>
+            <td>
+                <input type="radio" name="rdoWorkspaceRam" value="1000" checked> 1GB <br />
+                <input type="radio" name="rdoWorkspaceRam" value="2000"> 2GB <br />
+                <input type="radio" name="rdoWorkspaceRam" value="3000"> 3GB
+            </td>
+        </tr>
+        <tr>
+            <td>Type:</td>
+            <td>
+                <input type="radio" name="rdoWorkspaceType" value="blank" checked> blank <br />
+                <input type="radio" name="rdoWorkspaceType" value="java"> java <br />
+                <input type="radio" name="rdoWorkspaceType" value="node"> node
+            </td>
+        </tr>
+        <tr>
+           <td colspan="2">
+               <input type="button" id="btnCreate" value="Create" />
+           </td>
+        </tr>
+    </table>
+    <br /><br />
+</div>
+<div id="divWorkspaceListArea">
+    <table id="tbWorkspace">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Status</th>
+            <th>Type</th>
+            <th>Created</th>
+            <th>Updated</th>
+            <th>Projects</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
 
-    </tbody>
-</table>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>
