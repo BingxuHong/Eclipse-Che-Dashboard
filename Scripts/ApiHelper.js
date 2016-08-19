@@ -180,6 +180,18 @@ var Project = {
         }
         return bRet;
     }
+    ,
+    Delete: function (name) {
+        var url = Workspace.SiteUrl + "/api/workspace/" + id;
+        jQuery.ajax({
+            url: url,
+            method: "delete",
+            success: function (data) {
+                console.log("Delete the workspace " + id + " success. ");
+            },
+            async: false
+        });
+    }
 };
 
 var Machine = {

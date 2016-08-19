@@ -15,17 +15,25 @@ function fn_ProjectListRender() {
         $("#spanWorkspaceName").html(data.config.name);
 
         if (data.config.projects.length > 0) {
+            $("#tbProject").children("tbody").html("");
             $.each(data.config.projects, function (index, value) {
 
                 var trHtml = "<tr>" +
                     "<td>###Name###</td>" +
                     "<td>###Type###</td>" +
                     "<td>###Description###</td>" +
+                    "<td><input type='button' id='btnDelete_###Name###' data-name='###Name###' value='Delete' /></td>" +
                     "</tr>";
-                trHtml = trHtml.replace("###Name###", value.name)
+                trHtml = trHtml.replaceAll("###Name###", value.name)
                     .replace("###Type###", value.type)
                     .replace("###Description###", value.description);
                 $("#tbProject").children("tbody").append(trHtml);
+            });
+
+
+            $("input[id^='btnDelete']").on("click",function(){
+                var name = $(this).data("name");
+                fn_DeleteProject(name);
             });
         }
     }
@@ -44,6 +52,10 @@ function  fn_CreateProject() {
     } else{
         alert("This workspace name is empty or already used.");
     }
+}
+
+function fn_DeleteProject(name) {
+    
 }
 
 function fn_RegisterEventReceiver(){
