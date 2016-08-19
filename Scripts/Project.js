@@ -2,29 +2,58 @@
  * Created by U on 2016-08-17.
  */
 
+var WORKSPACE_ID = Fn_GetParameterByName("workspaceId");
 $(document).ready(function () {
     fn_ProjectListRender();
+    fn_RegisterEventReceiver();
 });
 
 function fn_ProjectListRender() {
-    var id = Fn_GetParameterByName("workspaceId");
-    var data = Workspace.GetWorkspaceById(id);
+    var data = Workspace.GetWorkspaceById(WORKSPACE_ID);
 
-    if (data && data.config.projects.length > 0) {
-        $.each(data.config.projects, function (index, value) {
+    if (data) {
+        $("#spanWorkspaceName").html(data.config.name);
 
-            var trHtml = "<tr>" +
-                "<td>###Name###</td>" +
-                "<td>###Type###</td>" +
-                "<td>###Description###</td>" +
-                "</tr>";
-            trHtml = trHtml.replace("###Name###", value.name)
-                .replace("###Type###", value.type)
-                .replace("###Description###", value.description);
-            $("#tbProject").children("tbody").append(trHtml);
-        });
+        if (data.config.projects.length > 0) {
+            $.each(data.config.projects, function (index, value) {
+
+                var trHtml = "<tr>" +
+                    "<td>###Name###</td>" +
+                    "<td>###Type###</td>" +
+                    "<td>###Description###</td>" +
+                    "</tr>";
+                trHtml = trHtml.replace("###Name###", value.name)
+                    .replace("###Type###", value.type)
+                    .replace("###Description###", value.description);
+                $("#tbProject").children("tbody").append(trHtml);
+            });
+        }
     }
 }
 
+function  fn_CreateProject() {
+    var name = $.trim($("#txtProjectName").val());
+    if(name && Project.CheckName(WORKSPACE_ID, name)){
+        var type = $("input[name=rdoProjectType]:checked").val();
+        var desc = $.trim($("#txtProjectDescription").val());
+        Project.Create(WORKSPACE_ID,name,type,desc);
+        $("#divCreateProjectArea").hide();
+        $("#txtProjectName").val("");
+        $("#txtProjectDescription").val("");
+        fn_ProjectListRender();
+    } else{
+        alert("This workspace name is empty or already used.");
+    }
+}
 
+function fn_RegisterEventReceiver(){
+    $("#btnCreateArea").click(function(){
+        $("#divCreateProjectArea").show();
+    });
+
+    $("#btnCreate").click(function(){
+        fn_CreateProject();
+    });
+
+}
 
