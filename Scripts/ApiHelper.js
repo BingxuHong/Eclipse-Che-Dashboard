@@ -126,6 +126,7 @@ var Project = {
             var url = agentUrl + "/project/import/" + name;
 
             var config = {"location": "https://github.com/che-samples/blank", "parameters": {}, "type": "git"};
+
             jQuery.ajax({
                 url: url,
                 data: JSON.stringify(config),
@@ -181,16 +182,20 @@ var Project = {
         return bRet;
     }
     ,
-    Delete: function (name) {
-        var url = Workspace.SiteUrl + "/api/workspace/" + id;
-        jQuery.ajax({
-            url: url,
-            method: "delete",
-            success: function (data) {
-                console.log("Delete the workspace " + id + " success. ");
-            },
-            async: false
-        });
+    Delete: function (id, name) {
+        var machineInfo = Machine.GetMachineByWorkspaceId(workspaceId);
+        if (machineInfo && machineInfo[0] && machineInfo[0].runtime.servers["4401/tcp"].url) {
+            var agentUrl = machineInfo[0].runtime.servers["4401/tcp"].url;
+            var url = agentUrl + "/project/" + name;
+            jQuery.ajax({
+                url: url,
+                method: "delete",
+                success: function (data) {
+                    console.log("Delete the workspace " + name + " success. ");
+                },
+                async: false
+            });
+        }
     }
 };
 

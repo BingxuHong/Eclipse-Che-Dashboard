@@ -50,12 +50,17 @@ function  fn_CreateProject() {
         $("#txtProjectDescription").val("");
         fn_ProjectListRender();
     } else{
-        alert("This workspace name is empty or already used.");
+        alert("This project name is empty or already used.");
     }
 }
 
 function fn_DeleteProject(name) {
-    
+    if(name && Project.CheckName(WORKSPACE_ID, name)){
+        Project.Delete(WORKSPACE_ID,name);
+        fn_ProjectListRender();
+    } else{
+        alert("This project name is empty or already used.");
+    }
 }
 
 function fn_RegisterEventReceiver(){
