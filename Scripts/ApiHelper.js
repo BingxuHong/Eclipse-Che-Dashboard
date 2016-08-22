@@ -134,17 +134,9 @@ var Project = {
                 contentType: "application/json",
                 success: function (data) {
                     url = agentUrl + "/project/" + name;
-                    config = {
-                        "name": "111",
-                        "attributes": {},
-                        "links": [],
-                        "type": "blank",
-                        "source": {"location": "https://github.com/che-samples/blank", "type": "git", "parameters": {}},
-                        "path": "/111",
-                        "description": null,
-                        "problems": [],
-                        "mixins": []
-                    };
+                    if(type=="blank") config = Template.blank;
+                    else if(type == "java") config = Template.java;
+                    else config = Template.nodejs;
                     config.name = name;
                     config.path = "/" + name;
                     config.description = desc;
@@ -182,7 +174,7 @@ var Project = {
         return bRet;
     }
     ,
-    Delete: function (id, name) {
+    Delete: function (workspaceId, name) {
         var machineInfo = Machine.GetMachineByWorkspaceId(workspaceId);
         if (machineInfo && machineInfo[0] && machineInfo[0].runtime.servers["4401/tcp"].url) {
             var agentUrl = machineInfo[0].runtime.servers["4401/tcp"].url;
@@ -226,5 +218,41 @@ var Stack = {
             async: false
         });
         return ret;
+    }
+};
+
+var Template = {
+    blank : {
+        "name": "111",
+        "attributes": {},
+        "links": [],
+        "type": "blank",
+        "source": {"location": "https://github.com/che-samples/blank", "type": "git", "parameters": {}},
+        "path": "/111",
+        "description": null,
+        "problems": [],
+        "mixins": []
+    },
+    java : {
+        "name": "console-java-simple",
+        "attributes": {},
+        "links": [],
+        "type": "maven",
+        "source": {"location": "https://github.com/che-samples/console-java-simple.git", "type": "git", "parameters": {}},
+        "path": "/console-java-simple",
+        "description": null,
+        "problems": [],
+        "mixins": []
+    },
+    nodejs : {
+        "name": "nodejs-hello-world",
+        "attributes": {},
+        "links": [],
+        "type": "node-js",
+        "source": {"location": "https://github.com/che-samples/web-nodejs-sample.git", "type": "git", "parameters": {}},
+        "path": "/nodejs-hello-world",
+        "description": null,
+        "problems": [],
+        "mixins": []
     }
 };

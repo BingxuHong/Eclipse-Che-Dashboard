@@ -55,7 +55,7 @@ function  fn_CreateProject() {
 }
 
 function fn_DeleteProject(name) {
-    if(name && Project.CheckName(WORKSPACE_ID, name)){
+    if(name && !Project.CheckName(WORKSPACE_ID, name)){
         Project.Delete(WORKSPACE_ID,name);
         fn_ProjectListRender();
     } else{
