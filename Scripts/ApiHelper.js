@@ -3,7 +3,7 @@
  */
 var Workspace = {
     //SiteUrl: 'http://localhost:8080'
-    SiteUrl: 'http://52.78.114.109:8080'
+    SiteUrl: 'http://localhost:8080'
     ,
     GetAll: function (CallbackFunction) {
         var url = Workspace.SiteUrl + "/api/workspace";
@@ -253,7 +253,7 @@ var Template = {
         "name": "console-java-simple",
         "attributes": {},
         "links": [],
-        "type": "maven",
+        "type": "javac",
         "source": {"location": "https://github.com/che-samples/console-java-simple.git", "type": "git", "parameters": {}},
         "path": "/console-java-simple",
         "description": null,
