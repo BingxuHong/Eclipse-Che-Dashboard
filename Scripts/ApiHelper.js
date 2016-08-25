@@ -212,7 +212,7 @@ var Machine = {
 var Stack = {
     GetStackById: function (id) {
         var ret = null;
-        var url = Workspace.SiteUrl + "/api/workspace/" + id;
+        var url = Workspace.SiteUrl + "/api/stack/" + id;
         jQuery.ajax({
             url: url,
             success: function (data) {
