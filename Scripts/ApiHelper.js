@@ -212,7 +212,7 @@ var Machine = {
 var Stack = {
     GetStackById: function (id) {
         var ret = null;
-        var url = Workspace.SiteUrl + "/wsmaster/api/project-template/all";
+        var url = Workspace.SiteUrl + "/api/workspace/" + id;
         jQuery.ajax({
             url: url,
             success: function (data) {
@@ -227,7 +227,7 @@ var Stack = {
 var Template = {
     GetAll: function () {
         var ret = null;
-        var url = Workspace.SiteUrl + "/api/workspace/" + id;
+        var url = Workspace.SiteUrl + "/wsmaster/api/project-template/all";
         jQuery.ajax({
             url: url,
             success: function (data) {
