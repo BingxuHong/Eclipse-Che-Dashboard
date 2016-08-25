@@ -3,7 +3,7 @@
  */
 var Workspace = {
     //SiteUrl: 'http://localhost:8080'
-    SiteUrl: 'http://52.78.114.109:8080/'
+    SiteUrl: 'http://52.78.114.109:8080'
     ,
     GetAll: function (CallbackFunction) {
         var url = Workspace.SiteUrl + "/api/workspace";
@@ -47,6 +47,7 @@ var Workspace = {
     }
     ,
     Create: function (name, type, ram) {
+        var retWorkspaceId = null;
         type = Constants.STACKS[type].id;
         var stackData = Stack.GetStackById(type);
 
@@ -72,6 +73,7 @@ var Workspace = {
                 method: "post",
                 contentType: "application/json",
                 success: function (data) {
+                    retWorkspaceId = data.id;
                     console.log("Create the workspace " + name + " success. ");
                 },
                 async: false
@@ -79,6 +81,7 @@ var Workspace = {
         } else {
             console.log("Can not find stack with id： " + type);
         }
+        return retWorkspaceId;
     }
     ,
     Delete: function (id) {
@@ -118,7 +121,6 @@ var Workspace = {
         });
     }
 };
-
 
 var Project = {
     Create: function (workspaceId, name, type, desc) {
@@ -257,3 +259,6 @@ var Template = {
         "mixins": []
     }
 };
+
+
+Workspace.SiteUrl = "http://localhost:8080";

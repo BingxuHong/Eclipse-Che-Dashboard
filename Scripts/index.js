@@ -4,7 +4,7 @@
 $(document).ready(function () {
     fn_WorkspaceListRender();
     fn_RegisterEventReceiver();
-    setInterval(fn_WorkspaceListRender, 1000);
+    fn_WorkspaceWebsocketConnect();
 });
 
 function fn_WorkspaceListRender() {
@@ -61,7 +61,6 @@ function fn_WorkspaceListRender() {
                 var status = $(this).data("status");
                 if(status === "STOPPED"){
                     Workspace.Start(id);
-                    fn_WorkspaceListRender();
                 }
             });
 
@@ -70,7 +69,6 @@ function fn_WorkspaceListRender() {
                 var status = $(this).data("status");
                 if(status === "RUNNING"){
                     Workspace.Stop(id);
-                    fn_WorkspaceListRender();
                 }
             });
         }
@@ -82,10 +80,11 @@ function fn_CreateWorkspace(){
     if(name && Workspace.CheckName(name)){
         var type = $("input[name=rdoWorkspaceType]:checked").val();
         var ram = $("input[name=rdoWorkspaceRam]:checked").val();
-        Workspace.Create(name,type,ram);
+        var workspaceId = Workspace.Create(name,type,ram);
         $("#divCreateWorkspaceArea").hide();
         $("#txtWorkspaceName").val("");
         fn_WorkspaceListRender();
+        fn_WorkspaceStatusSetting(workspaceId);
     } else{
         alert("This workspace name is empty or already used.");
     }
@@ -109,7 +108,58 @@ function fn_RegisterEventReceiver(){
 
 }
 
-function fn_WorkspaceListUpdate() {
-    console.log("hello");
+function fn_WorkspaceWebsocketConnect(){
+    Workspace.GetAll(function (data) {
+        if(data && data.length > 0){
+            $.each(data, function(index,value) {
+                fn_WorkspaceStatusSetting(value.id);
+            });
+        }
+    });
+}
+function fn_WorkspaceStatusSetting(workspaceId)
+{
+    if ("WebSocket" in window)
+    {
+        // Let us open a web socket
+        var url = Workspace.SiteUrl.replace("http://","ws://") + "/api/ws/" + workspaceId;
+        var ws = new WebSocket(url);
+
+        ws.onopen = function()
+        {
+            // Web Socket is connected, send data using send()
+            var postData = {
+                                "uuid":Fn_BuildUUID(),
+                                "method":"POST",
+                                "path":null,
+                                "headers":[
+                                        {"name":"x-everrest-websocket-message-type","value":"subscribe-channel"}],
+                                "body":"{\"channel\":\"workspace:"+workspaceId+"\"}"
+                            };
+            ws.send(JSON.stringify(postData));
+        };
+
+        ws.onmessage = function (evt)
+        {
+            var received_msg = JSON.parse(evt.data);
+            if(received_msg && received_msg.responseCode === 0){
+                var statusMsg = JSON.parse(received_msg.body).eventType;
+                $("#trWorkspace_"+ workspaceId).children()[2].innerText = statusMsg;
+                $("#trWorkspace_"+ workspaceId).children().last().children().data("status",statusMsg);
+            }
+        };
+
+        ws.onclose = function()
+        {
+            // websocket is closed.
+            console.log(workspaceId + " Connection is closed...");
+        };
+    }
+
+    else
+    {
+        // The browser doesn't support WebSocket
+        alert("WebSocket NOT supported by your Browser!");
+    }
 }
 
