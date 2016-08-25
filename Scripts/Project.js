@@ -13,29 +13,24 @@ function fn_ProjectListRender() {
 
     if (data) {
         $("#spanWorkspaceName").html(data.config.name);
+        $("#tbProject").children("tbody").html("");
+        $.each(data.config.projects, function (index, value) {
+            var trHtml = "<tr>" +
+                "<td>###Name###</td>" +
+                "<td>###Type###</td>" +
+                "<td>###Description###</td>" +
+                "<td><input type='button' id='btnDelete_###Name###' data-name='###Name###' value='Delete' /></td>" +
+                "</tr>";
+            trHtml = trHtml.replaceAll("###Name###", value.name)
+                .replace("###Type###", value.type)
+                .replace("###Description###", value.description);
+            $("#tbProject").children("tbody").append(trHtml);
+        });
 
-        if (data.config.projects.length > 0) {
-            $("#tbProject").children("tbody").html("");
-            $.each(data.config.projects, function (index, value) {
-
-                var trHtml = "<tr>" +
-                    "<td>###Name###</td>" +
-                    "<td>###Type###</td>" +
-                    "<td>###Description###</td>" +
-                    "<td><input type='button' id='btnDelete_###Name###' data-name='###Name###' value='Delete' /></td>" +
-                    "</tr>";
-                trHtml = trHtml.replaceAll("###Name###", value.name)
-                    .replace("###Type###", value.type)
-                    .replace("###Description###", value.description);
-                $("#tbProject").children("tbody").append(trHtml);
-            });
-
-
-            $("input[id^='btnDelete']").on("click",function(){
-                var name = $(this).data("name");
-                fn_DeleteProject(name);
-            });
-        }
+        $("input[id^='btnDelete']").on("click",function(){
+            var name = $(this).data("name");
+            fn_DeleteProject(name);
+        });
     }
 }
 

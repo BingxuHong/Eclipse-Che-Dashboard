@@ -4,6 +4,7 @@
 $(document).ready(function () {
     fn_WorkspaceListRender();
     fn_RegisterEventReceiver();
+    setInterval(fn_WorkspaceListRender, 1000);
 });
 
 function fn_WorkspaceListRender() {
@@ -49,7 +50,10 @@ function fn_WorkspaceListRender() {
 
             $("input[id^='btnDelete']").on("click",function(){
                 var id = $(this).data("id");
-                fn_DeleteWorkspace(id);
+                var status = $(this).data("status");
+                if(status === "STOPPED") {
+                    fn_DeleteWorkspace(id);
+                }
             });
 
             $("input[id^='btnStart']").on("click",function(){
@@ -103,5 +107,9 @@ function fn_RegisterEventReceiver(){
         fn_CreateWorkspace();
     });
 
+}
+
+function fn_WorkspaceListUpdate() {
+    console.log("hello");
 }
 

@@ -2,7 +2,8 @@
  * Created by Bingxu on 2016-08-17.
  */
 var Workspace = {
-    SiteUrl: 'http://localhost:8080'
+    //SiteUrl: 'http://localhost:8080'
+    SiteUrl: 'http://52.78.114.109:8080/'
     ,
     GetAll: function (CallbackFunction) {
         var url = Workspace.SiteUrl + "/api/workspace";
@@ -93,10 +94,11 @@ var Workspace = {
     }
     ,
     Start: function (id) {
-        var url = Workspace.SiteUrl + "/api/workspace/" + id + "/runtime?accountId=che";
+        var url = Workspace.SiteUrl + "/api/workspace/" + id + "/runtime?environment=default&accountId=che";
         jQuery.ajax({
             url: url,
             method: "post",
+            contentType: "application/json",
             success: function (data) {
                 console.log("Start the workspace " + id + " success. ");
             },
@@ -125,18 +127,17 @@ var Project = {
             var agentUrl = machineInfo[0].runtime.servers["4401/tcp"].url;
             var url = agentUrl + "/project/import/" + name;
 
-            var config = {"location": "https://github.com/che-samples/blank", "parameters": {}, "type": "git"};
-
+            var config;
+            if(type=="blank") config = Template.blank;
+            else if(type == "java") config = Template.java;
+            else config = Template.nodejs;
             jQuery.ajax({
                 url: url,
-                data: JSON.stringify(config),
+                data: JSON.stringify(config.source),
                 method: "post",
                 contentType: "application/json",
                 success: function (data) {
                     url = agentUrl + "/project/" + name;
-                    if(type=="blank") config = Template.blank;
-                    else if(type == "java") config = Template.java;
-                    else config = Template.nodejs;
                     config.name = name;
                     config.path = "/" + name;
                     config.description = desc;
