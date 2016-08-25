@@ -167,7 +167,7 @@ var Project = {
             bRet = true;
             if (data.config.projects.length > 0) {
                 $.each(data.config.projects, function (index, value) {
-                    if (value.name === $.trim(name)) {
+                    if (value.path.replace("/","") === $.trim(name)) {
                         bRet = false;
                         return false;
                     }
@@ -261,4 +261,4 @@ var Template = {
 };
 
 
-Workspace.SiteUrl = "http://localhost:8080";
+Workspace.SiteUrl = "http://52.78.114.109:8080";

@@ -21,7 +21,7 @@ function fn_ProjectListRender() {
                 "<td>###Description###</td>" +
                 "<td><input type='button' id='btnDelete_###Name###' data-name='###Name###' value='Delete' /></td>" +
                 "</tr>";
-            trHtml = trHtml.replaceAll("###Name###", value.name)
+            trHtml = trHtml.replaceAll("###Name###", value.path.replace("/",""))
                 .replace("###Type###", value.type)
                 .replace("###Description###", value.description);
             $("#tbProject").children("tbody").append(trHtml);
