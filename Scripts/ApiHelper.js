@@ -123,15 +123,15 @@ var Workspace = {
 };
 
 var Project = {
-    Create: function (workspaceId, name, type, desc) {
+    Create: function (workspaceId, name, template, desc) {
         var machineInfo = Machine.GetMachineByWorkspaceId(workspaceId);
         if (machineInfo && machineInfo[0] && machineInfo[0].runtime.servers["4401/tcp"].url) {
             var agentUrl = machineInfo[0].runtime.servers["4401/tcp"].url;
             var url = agentUrl + "/project/import/" + name;
 
             var config;
-            if(type=="blank") config = Template.blank;
-            else if(type == "java") config = Template.java;
+            if(template=="blank") config = Template.blank;
+            else if(template == "java") config = Template.java;
             else config = Template.nodejs;
             jQuery.ajax({
                 url: url,
@@ -186,7 +186,7 @@ var Project = {
                 url: url,
                 method: "delete",
                 success: function (data) {
-                    console.log("Delete the workspace " + name + " success. ");
+                    console.log("Project: " + name + " successfully deleted.");
                 },
                 async: false
             });
@@ -225,6 +225,18 @@ var Stack = {
 };
 
 var Template = {
+    GetAll: function () {
+        var ret = null;
+        var url = Workspace.SiteUrl + "/wsmaster/api/project-template/all";
+        jQuery.ajax({
+            url: url,
+            success: function (data) {
+                ret = data;
+            },
+            async: false
+        });
+        return ret;
+    },
     blank : {
         "name": "111",
         "attributes": {},

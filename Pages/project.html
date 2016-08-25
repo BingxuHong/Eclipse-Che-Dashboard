@@ -34,10 +34,16 @@
             </tr>
             <tr>
                 <td>Type:</td>
-                <td>
-                    <input type="radio" name="rdoProjectType" value="blank" checked> blank <br />
-                    <input type="radio" name="rdoProjectType" value="java"> console-java-sample <br />
-                    <input type="radio" name="rdoProjectType" value="node"> nodejs-hello-world
+                <td id="projectType" onchange="fn_projectCreateType()">
+                    <input type="radio" name="rdoProjectType" value="blank" checked> Blank <br />
+                    <input type="radio" name="rdoProjectType" value="java"> Java <br />
+                    <input type="radio" name="rdoProjectType" value="node"> NodeJS
+                </td>
+            </tr>
+            <tr>
+                <td>Template:</td>
+                <td id="projectTemplate">
+                    <input type="radio" name="rdoProjectTemplate" value="blank" checked> blank <br />
                 </td>
             </tr>
             <tr>
